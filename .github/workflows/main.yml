@@ -22,5 +22,6 @@ jobs:
     - name: Deploy static site to S3 bucket
       run: aws s3 cp ./moodyssources3/ s3://moodysdestination --recursive
     - name: Create CF Template
-      run: aws cloudformation create-stack --stack-name sapprodtestformoodys --template-url "https://moodyssources3.s3.us-east-2.amazonaws.com/sample.yaml"  --tags Key=Environment,Value=Prod
+      #run: aws cloudformation create-stack --stack-name sapprodtestformoodys --template-url "https://moodyssources3.s3.us-east-2.amazonaws.com/sample.yaml"  --tags Key=Environment,Value=Prod
+      run: aws ecr create-repository --repository-name testmoodyspipeline
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
