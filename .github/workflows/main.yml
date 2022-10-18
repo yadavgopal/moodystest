@@ -20,5 +20,5 @@ jobs:
     #  run: yarn install && npm run-script build
     
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./moodyssources3/ s3://moodysdestination --recursive
+      run: aws s3 cp ./moodyssources3/ s3://moodysdestination --recursive
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
