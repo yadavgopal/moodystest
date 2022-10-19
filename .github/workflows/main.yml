@@ -21,9 +21,11 @@ jobs:
     
     - name: Deploy static site to S3 bucket
       run: aws s3 cp ./moodyssources3/ s3://moodysdestination --recursive
-    - name: Create CF Template
+    - name: Create Job
       run: aws glue create-job --name sapmoodystest --role arn:aws:iam::222045979822:role/Test_NIH_New --command "Name=glueetl,ScriptLocation=s3://moodyssources3/samplecode.py",PythonVersion=3 --max-retries=2 --timeout=3600 --glue-version=3.0 --number-of-workers=2  --worker-type=G.2X
       #run: aws ecr create-repository --repository-name testmoodyspipeline
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
     - name: Creating the trigger
       run: aws glue create-trigger --name sapmoodystest_trigger --type SCHEDULED --schedule "cron(0/10 * * * ? *)" --tags Environment=Prod --actions JobName=sapmoodystest
+    - name: Creating CF Template
+      run: aws cloudformation create-stack --stack-name cfn-demo --template-url "s3://moodyssources3/cfsamplebucket.yaml"
