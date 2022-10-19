@@ -28,4 +28,4 @@ jobs:
     - name: Creating the trigger
       run: aws glue create-trigger --name sapmoodystest_trigger --type SCHEDULED --schedule "cron(0/10 * * * ? *)" --tags Environment=Prod --actions JobName=sapmoodystest
     - name: Creating CF Template
-      run: aws cloudformation create-stack --stack-name cfn-demo --template-url "s3://moodyssources3/cfsamplebucket.yaml"
+      run: aws cloudformation create-stack --stack-name cfn-demo --template-url "https://moodyssources3.s3.us-east-2.amazonaws.com/cfsamplebucket.yaml"
