@@ -22,6 +22,6 @@ jobs:
     - name: Deploy static site to S3 bucket
       run: aws s3 cp ./moodyssources3/ s3://moodysdestination --recursive
     - name: Create CF Template
-      run: aws glue create-job --name sapuattest --log-uri "s3://moodyssources3/SparkLogs/" --role MSSGlueSecurityGroup --execution-property MaxConcurrentRuns=2 --command  Name=gluestreaming ,ScriptLocation="s3://moodyssources3/samplecode.py",PythonVersion=3 --max-retries=2 --timeout=3600 --tags --iceberg_job_catalog_warehouse=s3://moodyssources3/warehouse/,--disable-proxy=true,--enable-job-insights=false,--enable-glue-datacatalog=true, --Temp_Dir=s3://moodyssources3/Temporary --glue-version=3.0 --number-of-workers=1  --worker-type=G.2X
+      run: aws glue create-job --name sapuattest --log-uri "s3://moodyssources3/SparkLogs/" --execution-property MaxConcurrentRuns=2 --command  Name=gluestreaming ,ScriptLocation="s3://moodyssources3/samplecode.py",PythonVersion=3 --max-retries=2 --timeout=3600 --tags --iceberg_job_catalog_warehouse=s3://moodyssources3/warehouse/,--disable-proxy=true,--enable-job-insights=false,--enable-glue-datacatalog=true, --Temp_Dir=s3://moodyssources3/Temporary --glue-version=3.0 --number-of-workers=1  --worker-type=G.2X
       #run: aws ecr create-repository --repository-name testmoodyspipeline
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
