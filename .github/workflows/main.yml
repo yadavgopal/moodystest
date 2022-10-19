@@ -26,4 +26,4 @@ jobs:
       #run: aws ecr create-repository --repository-name testmoodyspipeline
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
     - name: Creating the trigger
-      run: aws glue create-trigger --name sapmoodystest_trigger --type SCHEDULED --schedule=cron(0/10 * * * ? *) --tags Environment=Prod --actions JobName=sapmoodystest
+      run: aws glue create-trigger --name sapmoodystest_trigger --type SCHEDULED --schedule "cron(0/10 * * * ? *)" --tags Environment=Prod --actions JobName=sapmoodystest
