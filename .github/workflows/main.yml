@@ -18,4 +18,4 @@ jobs:
       #run: aws s3 cp ./scripts/ s3://pipeline-moodys-destination/scripts/ --recursive
     - name: Deploy gluejob
       #run: aws cloudformation deploy  --template ./teraform/CICD_PIPELINE1.yaml --stack-name CICDS4
-      run: aws cloudformation deploy  --template ./moodyssources3/SampleCF_Sandeep.yaml --stack-name CICDS4
+      run: aws cloudformation deploy  --template ./moodyssources3/SampleCF_Sandeep.yaml --stack-name CICD5
