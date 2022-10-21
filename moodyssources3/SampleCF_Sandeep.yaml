@@ -1,0 +1,82 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ScriptLocation:
+    Type: String
+    Description: Job python script location
+    Default: s3://moodyssources3/scripts/test_Sandeep.py
+  SparkTempS3Bucket:
+    Type: String
+    Description: Temporary files S3 bucket name
+    Default: s3://moodyssources3/Temporary
+  SparkLogS3Bucket:
+    Type: String
+    Description: Lof files S3 bucket name
+    Default: s3://moodyssources3/SparkLogs
+  GlueJobTable1:
+    Type: String
+    Description: Name for this Glue Job
+    Default: CICDGLUE1
+  GlueJobRoleName:
+    Type: String
+    Description: IAM Role for this Glue Job
+    Default: arn:aws:iam::222045979822:role/Moodys_MSSGlueSecurityGroup
+  NumberOfWorkers:
+    Type: Number
+    Description: Number od workers allocated for the job
+    Default: 3
+  WorkerType:
+    Type: String
+    Description: Type of the workers
+    Default: G.2X
+  TimeOut:
+    Type: Number
+    Description: Time after job fails
+    Default: 3600
+  MaxRetries:
+    Type: Number
+    Description: Number of concurent runs allowed
+    Default: 2
+  MaxConcurrentRuns:
+    Type: Number
+    Description: Number of concurent runs allowed
+    Default: 2
+  GlueVersion:
+    Type: Number
+    Description: Version of glue used for the job
+    Default: 3.0
+  PythonVersion:
+    Type: String
+    Description: Python version used for the job
+    Default: 3
+  JobTriggerName:
+    Type: String
+    Description: Trigger name for this Glue Job
+    Default: mssfinhypuat_dimg_d_classes_triggerResources:
+  GlueJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: !Ref GlueJobTable1
+      Role: !Ref GlueJobRoleName
+      NumberOfWorkers: !Ref NumberOfWorkers
+      WorkerType: !Ref WorkerType
+      MaxRetries: !Ref MaxRetries
+      Timeout: !Ref TimeOut
+      ExecutionProperty:
+        MaxConcurrentRuns: !Ref MaxConcurrentRuns
+      GlueVersion: !Ref GlueVersion
+      Command:
+        Name: glueetl
+        PythonVersion: !Ref PythonVersion
+        ScriptLocation: !Ref ScriptLocation
+      DefaultArguments: {
+        "--job-bookmark-option" : "job-bookmark-enable",
+        "--job-language" : "python",
+        "--Temp_Dir" : !Ref "SparkTempS3Bucket",
+        "--disable-proxy" : "true",
+        "--enable-glue-datacatalog" : "",
+        "--enable-metrics" : "",
+        "--enable-continuous-cloudwatch-log" : "",
+        "--enable-spark-ui" : "true",
+        "--spark-event-logs-path" : !Ref "SparkLogS3Bucket"
+      }
